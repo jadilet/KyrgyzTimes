@@ -14,12 +14,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/newsIv"
+        android:id="@+id/newsShowIv"
         />
     <TextView
+        android:layout_below="@id/newsShowIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/contentTv"
+        android:id="@+id/contentShowTv"
         />
 
 </RelativeLayout>

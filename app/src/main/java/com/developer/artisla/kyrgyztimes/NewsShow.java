@@ -1,16 +1,16 @@
 package com.developer.artisla.kyrgyztimes;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-
+import android.widget.TextView;
+import android.widget.ImageView;
 import com.developer.artisla.kyrgyztimes.model.News;
-import com.developer.artisla.kyrgyztimes.model.Videos;
+import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,41 +19,64 @@ import org.jsoup.select.Elements;
 
 public class NewsShow extends AppCompatActivity {
 
+    private static final String SITE_URL = "http://kyrgyztimes.kg/";
+
+    private TextView contentTv;
+    private ImageView newsIv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_show);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        contentTv = (TextView) findViewById(R.id.contentShowTv);
+        newsIv = (ImageView) findViewById(R.id.newsShowIv);
 
         News news =(News) getIntent().getSerializableExtra("News");
+
+        toolbar.setTitle(news.getTitle());
+        setSupportActionBar(toolbar);
 
         new HtmlParserManager().execute(news.getNewsUrl());
 
     }
 
+    public void loadImage(String path){
+        Picasso.with(this).load(Uri.parse(SITE_URL + path)).into(newsIv);
+    }
 
-    private class HtmlParserManager extends AsyncTask<String, Void, Boolean> {
 
+    private class HtmlParserManager extends AsyncTask<String, Void, String> {
+
+        private String imagePath="";
+        private StringBuilder stringBuilder;
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected String doInBackground(String... strings) {
+
+            stringBuilder = new StringBuilder();
 
             try {
                 Document document = Jsoup.connect(strings[0]).get();
 
-                Elements content = document.select("div#dle-content");
+                Elements content = document.select("div[class=news-text clearfix]");
+                imagePath = content.select("img[src]").attr("src");
+                Log.d("ImagePath ",imagePath);
 
-                Log.d("content ",content.toString());
+                for(Element element:content) {
+                    Log.d("content br ", element.tagName("br").text());
+                    stringBuilder.append(element.tagName("br").text());
+
+                }
 
 
 
-                return true;
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
 
-            return false;
+            return stringBuilder.toString();
         }
 
         @Override
@@ -63,10 +86,10 @@ public class NewsShow extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean b) {
-            super.onPostExecute(b);
-            if (!b) {
-            }
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            contentTv.setText(result);
+            loadImage(imagePath);
 
         }
     }
