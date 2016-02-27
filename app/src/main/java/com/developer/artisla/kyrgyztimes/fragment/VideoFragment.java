@@ -31,7 +31,7 @@ import java.util.List;
 public class VideoFragment extends Fragment {
     private final static String TITLE = "title";
     private final static String PAGE = "page";
-    private final String SITE_URL = "http://kyrgyztimes.kg";
+    private final String SITE_URL = "http://kyrgyztimes.kg/videoarchive.html";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private Button reloadVideoBt;
@@ -95,28 +95,27 @@ public class VideoFragment extends Fragment {
             try {
                 Document document = Jsoup.connect(strings[0]).get();
 
+                String title;
 
-                Elements videosImage = document.getElementsByClass("videostory").tagName("a").tagName("img");
                 Elements popups = document.getElementsByClass("popup").tagName("iframe").tagName("iframe");
+                Elements videoImages = document.select("div[class=stvid]").tagName("a").tagName("img");
 
+                int i=0;
 
-                int i = 0;
-                for (Element videoImage : videosImage) {
+                for (Element popup:popups){
 
-                    Videos videos = new Videos();
-                    videos.setTitle(videoImage.select("center").text());
+                    title = videoImages.select("center").get(i).text();
 
-                    videos.setImagePath("http:" + videoImage.select("img[src]").attr("src"));
-                    videos.setVideoUrl(popups.select("iframe[src]").get(i++).attr("src"));
+                    Videos video = new Videos();
+                    video.setTitle(title);
+                    video.setImagePath("http:"+videoImages.select("img[src]").get(i++).attr("src"));
+                    video.setVideoUrl(popup.select("iframe[src]").attr("src"));
 
-                    videosList.add(videos);
-
-                    //     android.util.Log.d("src    ", videoImage.select("img[src]").attr("src"));
-                    //     android.util.Log.d("title  ", videoImage.select("center").text());
-                    //     Log.d("iframe " + i, popups.select("iframe[src]").get(i++).attr("src"));
+                    videosList.add(video);
                 }
 
                 return true;
+
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
