@@ -44,16 +44,10 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
             // Do something
 
             if ((++current_page)<=19){
-
                 onLoadMore(current_page);
-
             }
-
-
-
             loading = true;
         }
     }
-
     public abstract void onLoadMore(int current_page);
 }

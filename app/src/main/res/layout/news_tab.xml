@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="@string/reload"
         android:id="@+id/reloadBt"
-        android:visibility="gone"
+        android:visibility="visible"
         />
 
 

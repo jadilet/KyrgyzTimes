@@ -149,7 +149,4 @@ public class NewsCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemCount() {
         return mDataSet.size();
     }
-
-
-
 }

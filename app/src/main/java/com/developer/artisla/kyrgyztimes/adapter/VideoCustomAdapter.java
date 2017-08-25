@@ -136,10 +136,8 @@ public class VideoCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 Intent intent = new Intent(view.getContext(), PlayerYoutube.class);
                 intent.putExtra("Videos",mDataSet.get(position));
                 view.getContext().startActivity(intent);
-
             }
         });
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

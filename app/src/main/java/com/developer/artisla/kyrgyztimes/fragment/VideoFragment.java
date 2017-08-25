@@ -29,6 +29,7 @@ import java.util.List;
  * Created by artisla on 2/16/16.
  */
 public class VideoFragment extends Fragment {
+
     private final static String TITLE = "title";
     private final static String PAGE = "page";
     private final String SITE_URL = "http://kyrgyztimes.kg/videoarchive.html";
@@ -36,7 +37,7 @@ public class VideoFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private Button reloadVideoBt;
     private RecyclerView.LayoutManager mLayoutManager;
-    List<Videos> videosList = new ArrayList<Videos>();
+    List<Videos> videosList = new ArrayList<>();
 
 
     public static VideoFragment newInstance(int page, String title) {
@@ -52,7 +53,6 @@ public class VideoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable

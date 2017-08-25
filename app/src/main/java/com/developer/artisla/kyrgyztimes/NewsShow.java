@@ -66,10 +66,7 @@ public class NewsShow extends AppCompatActivity {
                 for(Element element:content) {
                     Log.d("content br ", element.tagName("br").text());
                     stringBuilder.append(element.tagName("br").text());
-
                 }
-
-
 
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
@@ -81,7 +78,6 @@ public class NewsShow extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
@@ -89,9 +85,6 @@ public class NewsShow extends AppCompatActivity {
             super.onPostExecute(result);
             contentTv.setText(result);
             loadImage(imagePath);
-
         }
     }
-
-
 }
